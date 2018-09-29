@@ -1,2 +1,0 @@
-# PromiseTester
-Created with CodeSandbox
