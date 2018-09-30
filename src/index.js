@@ -31,50 +31,77 @@ const getBar = async () => {
   }
 };
 
-Promise.all([getFoo(), getBar()])
-  .then(res => console.log("My Results: ", res))
-  .catch(err => console.error(err));
+// Promise.all([getFoo(), getBar()])
+//   .then(res => console.log("My Results: ", res))
+//   .catch(err => console.error(err));
 
-const countHelper = myTask => {
-  let bigNum = 0;
-  let smallNum = 0;
-  if (myTask === "big") {
-    while (bigNum < 10000) {
-      bigNum = bigNum + 1;
-    }
-  } else if (myTask === "small") {
-    while (smallNum < 100) {
-      smallNum = smallNum + 1;
-    }
+const countHelper1 = num => {
+  while(num < 10000){
+    num = num + 1
   }
-  if (bigNum !== 0) {
-    console.log("BIG result: ", bigNum);
-    return bigNum;
-  } else if (smallNum !== 0) {
-    console.log("small result: ", smallNum);
-    return smallNum;
-  }
+  return num
+  
 };
 
-const bigCount = async () => {
-  try {
-    let data = await countHelper("big");
+const countHelper2 = num => {
+  while (num < 3) {
+    num = num + 1
+  }
+  return num
+};
 
+  
+
+
+class counter {
+  constructor(num) {
+    this.num = num;
+  }
+  bigRes(){
+    setTimeout(()=>{
+      this.num = 1000;
+    }, 100)
+    console.log('BIG: ', this.num)
+    return this.num
+  }
+  smallRes(){
+        this.num = this.num + 1;
+    console.log('samll: ', this.num)
+    return this.num
+  }
+}
+
+const bigCount = async (num) => {
+  try {
+    // const countBig = new counter(0)
+    // let data = await countBig.bigRes();
+    let data = await countHelper1(num);
+    console.log('b: ', data)
     return data;
   } catch (err) {
     console.error(err);
   }
 };
 
-const smallCount = async () => {
+const smallCount = async (num) => {
   try {
-    let data = await countHelper("small");
+    // const countSmall = new counter(0)
+    // let data = await countSmall.smallRes();
+    let data = await countHelper2(num);
+    console.log('s: ', data)
     return data;
   } catch (err) {
     console.error(err);
   }
 };
 
-Promise.all([bigCount(), smallCount()])
-  .then(res => console.log("My Count Results: ", res))
+
+Promise.all([bigCount(0), smallCount(0)])
+  .then(res => {
+    console.log("My Count Results: ", res)
+    const total = res.reduce((acc, val) => {
+      return acc + val
+    }) 
+    console.log(total) 
+  })
   .catch(err => console.error(err));
